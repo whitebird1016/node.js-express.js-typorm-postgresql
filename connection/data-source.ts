@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import User from "../entity/User";
 dotenv.config();
 
-const AppDataSource = new DataSource({
+export const AppDataSource = new DataSource({
     type: "postgres", 
     host: POSTGRES_HOST,
     port: Number(POSTGRES_PORT) || 5432, // default port of postgres
@@ -15,16 +15,8 @@ const AppDataSource = new DataSource({
         // typeORM will not be able to create database table if we forget to put entity class name here..
         User, // our User entity class
     ],
+    migrations: ['migrations/*.ts'],
     synchronize: true,
-    logging: false
+    logging: true,
+    migrationsRun: true,
 });
-
-AppDataSource.initialize()
-    .then(() => {
-        console.log("Data Source has been initialized!")
-    })
-    .catch((err) => {
-        console.error("Error during Data Source initialization", err)
-    })
-
-export default AppDataSource;

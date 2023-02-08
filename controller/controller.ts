@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 import bcrypt, { hash } from 'bcryptjs';
-import AppDataSource  from "../connection/Connection";
+import {AppDataSource}  from "../connection/data-source";
 import User from "../entity/User";
 import jwt  from 'jsonwebtoken';
 import { JWT_SECRET } from '../constants';

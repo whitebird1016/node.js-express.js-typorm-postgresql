@@ -7,8 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node ./app.ts",
     "serve": "nodemon ./app.ts",
-    "typeorm": "./node_modules/.bin/typeorm ",
-    "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./ormconfig.ts"
+    "build": "tsc -p .",
+    "typeorm": "typeorm-ts-node-commonjs -d ./connection/data-source.ts",
+    "migrate": "npm run typeorm migration:generate -n ./migrations/added-user-entity",
+    "db:push": "npm run typeorm migration:run"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +38,6 @@
     "pg": "^8.4.0",
     "redis": "^4.6.3",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "0.3.11"
+    "typeorm": "^0.3.11"
   }
 }
