@@ -25,15 +25,14 @@ export const refresh_token = async (req: Request, res: Response) => {
   if (!refreshToken) {
     return res.sendStatus(401);
   }
-
+  console.log(refreshToken, "refreshToken");
   //verify refresh token
   jwt.verify(refreshToken, REFRESH_SECRET, async (err: any, user: any) => {
     if (err) {
       return res.sendStatus(401);
     }
-    console.log(user, "user");
     const accessToken = await jwt.sign({ user }, JWT_SECRET, {
-      expiresIn: "1m",
+      expiresIn: "1s",
     });
     return res.status(200).json({
       accessToken,
@@ -68,7 +67,7 @@ export const login = async (req: Request, res: Response) => {
             mail: user.email,
           };
           const accessToken = await jwt.sign(payload, JWT_SECRET, {
-            expiresIn: "5m",
+            expiresIn: "1s",
           });
           const refreshToken = await jwt.sign(payload, REFRESH_SECRET, {
             expiresIn: "1d",
