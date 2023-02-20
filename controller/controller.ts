@@ -25,18 +25,17 @@ export const refresh_token = async (req: Request, res: Response) => {
   if (!refreshToken) {
     return res.sendStatus(401);
   }
-  console.log(refreshToken, "refreshToken");
+
   //verify refresh token
   jwt.verify(refreshToken, REFRESH_SECRET, async (err: any, user: any) => {
     if (err) {
       return res.sendStatus(401);
     }
     const accessToken = await jwt.sign({ user }, JWT_SECRET, {
-      expiresIn: "1s",
+      expiresIn: "1m",
     });
     return res.status(200).json({
       accessToken,
-      refreshToken,
     });
   });
 };
@@ -67,10 +66,10 @@ export const login = async (req: Request, res: Response) => {
             mail: user.email,
           };
           const accessToken = await jwt.sign(payload, JWT_SECRET, {
-            expiresIn: "1s",
+            expiresIn: "1m",
           });
           const refreshToken = await jwt.sign(payload, REFRESH_SECRET, {
-            expiresIn: "1d",
+            expiresIn: "10m",
           });
 
           // set refresh token as cookie
@@ -162,10 +161,10 @@ export const addNewUser = async (req: Request, res: Response) => {
           id: user.id,
         };
         const accessToken = await jwt.sign(payload, JWT_SECRET, {
-          expiresIn: "1d",
+          expiresIn: "1m",
         });
         const refreshToken = await jwt.sign(payload, REFRESH_SECRET, {
-          expiresIn: "1d",
+          expiresIn: "10m",
         });
         return res.status(200).json({
           accessToken,
